@@ -1,0 +1,161 @@
+/* General */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    background: url(/static/images/bg_1.jpg);
+}
+
+/* Hero Section */
+.hero-section {
+    /* background: linear-gradient(to right, #ff7e5f, #feb47b); */
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    height: 30px;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: url('https://www.svgrepo.com/show/336027/waves.svg') no-repeat center;
+    background-size: cover;
+}
+
+.hero-section h1 {
+    font-size: 3.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: fadeInUp 1s;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    animation: fadeInUp 1.5s;
+}
+
+/* Card Design */
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.activity-image, .accommodation-image {
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 3px solid #ff7e5f;
+}
+
+.activity-image:hover, .accommodation-image:hover {
+    filter: brightness(0.9);
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+    border-radius: 30px;
+    font-size: 0.9rem;
+    padding: 10px 25px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #feb47b, #ff7e5f);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    width: 50px;
+    height: 3px;
+    background: #ff7e5f;
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.8rem;
+    }
+
+    .activity-image, .accommodation-image {
+        height: 180px;
+    }
+}
+/* Default: 3 cards visible on large screens */
+.activities-scroll-container, .accommodations-scroll-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 20px;
+  }
+  
+  .card {
+    width: 18rem; /* Default width */
+    margin-right: 15px;
+  }
+  
+  /* For medium screens (tablets), show 2 cards */
+  @media (max-width: 992px) {
+    .card {
+      width: 16rem; /* Slightly smaller cards for tablet */
+    }
+  }
+  
+  /* For small screens (mobile), show 1 card */
+  @media (max-width: 576px) {
+    .card {
+      width: 14rem; /* Even smaller cards for mobile */
+    }
+  }
+  

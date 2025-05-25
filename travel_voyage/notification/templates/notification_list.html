@@ -1,0 +1,32 @@
+{% load static %}
+{% include 'header.html' %}
+<br><br>
+<body style="background:url('{% static 'images/bg_1.jpg' %}') no-repeat center center fixed; background-size: cover;">
+    <div class="container mt-5 bg-white p-4 rounded shadow">
+        <h2 class="text-center">User Notifications</h2>
+        <ul class="list-group">
+            {% for notification in user_notifications %}
+            <li class="p-3 list-group-item bg-dark text-white d-flex justify-content-between align-items-center {% if not notification.is_read %}list-group-item-warning{% endif %} mb-3">
+                <div>
+                    <strong>{{ notification.message }}</strong><br>
+                    <small class="text-muted">{{ notification.created_at }}</small>
+                    {% if notification.user != request.user %}
+                        <br><small class="text-dark bg-warning p-2 rounded">Added by: {{ notification.user.username }}</small>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if not notification.is_read %}
+                        <a href="{% url 'mark_as_read' notification.id %}" class="btn btn-primary btn-sm">Mark as Read</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% empty %}
+            <li class="list-group-item text-center">No user notifications available.</li>
+            {% endfor %}
+        </ul>
+
+       
+        
+    </div>
+</body>
+{% include 'footer.html' %}

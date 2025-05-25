@@ -1,0 +1,60 @@
+{% include "header.html" %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/destination_detail.css' %}">
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="hero-section text-center mb-5">
+        <h1 class="display-4 fw-bold">Explore {{ destination.place }}</h1>
+        <p class="lead">Find your next adventure or a place to relax in style.</p>
+    </div>
+
+    <!-- Activities Section -->
+    {% if activities %}
+    <section class="mb-5">
+        <h2 class="section-title text-center mb-4">Top Activities in {{ destination.place }}</h2>
+        <div class="activities-scroll-container" style="overflow-x: auto; white-space: nowrap; padding-bottom: 20px;">
+            <div class="d-flex">
+                {% for activity in activities %}
+                <div class="card shadow-sm border-0" style="width: 18rem; margin-right: 15px; display: inline-block;">
+                    <div class="activity-image rounded-top" style="background-image: url({{ activity.image.url|default:'images/activity-placeholder.jpg' }}); height: 200px; background-size: cover;"></div>
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">{{ activity.spot_name }}</h5>
+                        <p class="text-muted">{{ activity.description|truncatewords:15 }}</p>
+                        <a href="{% url 'activity_detail' activity.id %}" class="btn btn-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <div class="text-center text-muted mb-5">No activities available for this destination.</div>
+    {% endif %}
+
+    <!-- Accommodations Section -->
+    {% if accommodations %}
+    <section>
+        <h2 class="section-title text-center mb-4">Stay in {{ destination.place }}</h2>
+        <div class="accommodations-scroll-container" style="overflow-x: auto; white-space: nowrap; padding-bottom: 20px;">
+            <div class="d-flex">
+                {% for accommodation in accommodations %}
+                <div class="card shadow-sm border-0" style="width: 18rem; margin-right: 15px; display: inline-block;">
+                    <div class="accommodation-image rounded-top" style="background-image: url({{ accommodation.images.first.image.url|default:'images/accommodation-placeholder.jpg' }}); height: 200px; background-size: cover;"></div>
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">{{ accommodation.name }}</h5>
+                        <p class="text-muted">{{ accommodation.description|truncatewords:15 }}</p>
+                        <a href="{% url 'accommodation_detail' accommodation.id %}" class="btn btn-secondary btn-sm">View Details</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <div class="text-center text-muted mb-5">No accommodations available for this destination.</div>
+    {% endif %}
+</div>
+
+{% include "footer.html" %}

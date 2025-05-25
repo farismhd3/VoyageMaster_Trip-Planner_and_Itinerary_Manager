@@ -1,0 +1,83 @@
+/* General page styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.banner-w3l-main {
+    background-color: #ffffff;
+    padding: 50px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1.my-4 {
+    color: #333;
+    font-size: 36px;
+}
+
+.row {
+    margin-top: 30px;
+}
+
+/* Styling the form */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+/* Star rating styles */
+.star-rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    direction: ltr; /* Ensure the stars are displayed left to right */
+}
+
+.star {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Change the color of stars when selected */
+input[type="radio"]:checked ~ .star {
+    color: #f39c12;
+}
+
+/* Change star color on hover from left to right */
+.star:hover,
+input[type="radio"]:checked ~ .star:hover {
+    color: #f39c12;
+}
+
+input[type="radio"]:checked ~ .star:hover,
+.star:hover ~ .star {
+    color: #f39c12;
+}
+
+/* Submit button */
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}

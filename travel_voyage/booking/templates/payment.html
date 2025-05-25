@@ -1,0 +1,239 @@
+{% include 'header.html' %}
+{% load static %}
+
+<style>
+    .payment-section {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        border: 2px solid gray;
+    }
+
+    .payment-card {
+        border: 2px solid transparent;
+        border-radius: 12px;
+        padding: 1rem;
+        text-align: center;
+        background-color: #fff;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .payment-card:hover {
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        transform: translateY(-4px);
+    }
+
+    .payment-card i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .payment-card.active {
+        border-color: #0d6efd;
+        box-shadow: 0 0 12px rgba(13, 110, 253, 0.4);
+        background-color: #e7f0ff;
+    }
+
+    .payment-card p {
+        margin: 0;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-section {
+        display: none;
+        animation: fadeIn 0.3s ease-in-out forwards;
+    }
+
+    #paymentImageContainer i {
+        font-size: 3rem;
+        transition: transform 0.3s ease;
+    }
+
+    #paymentImageContainer:hover i {
+        transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    hr{
+        border: 1px solid #000;
+    }
+</style>
+
+<body>
+    <br><br><br>
+<div class="container py-5">
+    <fieldset>
+    <div class="payment-section mx-auto col-md-8 bg-white">
+        <br><br>
+        <h2 class="text-center mb-4 text-primary">Secure Payment</h2>
+        <h4 class="text-center">{{ booking.accommodation.name }}</h4>
+        <p class="text-center mb-1">Check-in: <strong>{{ booking.check_in }}</strong></p>
+        <p class="text-center mb-1">Check-out: <strong>{{ booking.check_out }}</strong></p>
+        <p class="text-center mb-4 fs-5">Total: <strong>${{ booking.total_price }}</strong></p>
+<hr>
+        <form method="post" id="paymentForm" class="p-3">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Select Payment Method</label>
+                <div class="row row-cols-2 row-cols-md-3 g-3 justify-content-center" id="paymentOptions">
+
+                    <div class="col">
+                        <div class="payment-card" data-method="Credit Card">
+                            <i class="fas fa-credit-card text-primary"></i>
+                            <p>Credit Card</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="payment-card" data-method="Debit Card">
+                            <i class="fas fa-credit-card text-info"></i>
+                            <p>Debit Card</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="payment-card" data-method="Bank Transfer">
+                            <i class="fas fa-university text-success"></i>
+                            <p>Bank Transfer</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="payment-card" data-method="UPI">
+                            <i class="fas fa-qrcode text-dark"></i>
+                            <p>UPI</p>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="payment-card" data-method="Cash on Delivery">
+                            <i class="fas fa-money-bill-wave text-warning"></i>
+                            <p>Cash on Delivery</p>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <input type="hidden" name="payment_method" id="payment_method" required>
+            </div>
+
+            <!-- Dynamic Fields -->
+            <div id="paymentDetails" class="form-section">
+                <div id="cardDetails" class="mb-3">
+                    <label for="card_number" class="form-label">Card Number</label>
+                    <input type="text" id="card_number" name="card_number" class="form-control" placeholder="XXXX XXXX XXXX XXXX">
+                </div>
+
+                <div id="cardExpiry" class="mb-3">
+                    <label for="expiry_date" class="form-label">Expiry Date</label>
+                    <input type="month" id="expiry_date" name="expiry_date" class="form-control">
+                </div>
+
+                <div id="cvv" class="mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" id="cvv" name="cvv" class="form-control" placeholder="3-digit CVV">
+                </div>
+
+                <div id="bankDetails" class="mb-3">
+                    <label for="bank_account" class="form-label">Bank Account Number</label>
+                    <input type="text" id="bank_account" name="bank_account" class="form-control" placeholder="Account number">
+                </div>
+
+                <div id="upiDetails" class="mb-3">
+                    <label for="upi_id" class="form-label">UPI ID</label>
+                    <input type="text" id="upi_id" name="upi_id" class="form-control" placeholder="example@upi">
+                </div>
+
+                <div class="mb-3" id="transaction_id_div">
+                    <label for="transaction_id" class="form-label">Transaction ID</label>
+                    <input type="text" id="transaction_id" name="transaction_id" class="form-control" placeholder="Enter transaction ID">
+                </div>
+            </div>
+
+            <!-- Icon Preview -->
+            <div id="paymentImageContainer" class="text-center mt-3" style="display: none;">
+                <i id="paymentImage"></i>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-4 py-2">💳 Confirm Payment</button>
+        </form>
+    </div>
+    </fieldset>
+</div>
+
+<script>
+    function showPaymentDetails() {
+        const method = document.getElementById('payment_method').value;
+
+        const fields = {
+            paymentDetails: document.getElementById('paymentDetails'),
+            cardDetails: document.getElementById('cardDetails'),
+            cardExpiry: document.getElementById('cardExpiry'),
+            cvv: document.getElementById('cvv'),
+            bankDetails: document.getElementById('bankDetails'),
+            upiDetails: document.getElementById('upiDetails'),
+            txnId: document.getElementById('transaction_id_div'),
+            imageContainer: document.getElementById('paymentImageContainer'),
+            image: document.getElementById('paymentImage'),
+        };
+
+        Object.values(fields).forEach(field => {
+            if (field && field.style) field.style.display = 'none';
+        });
+
+        if (!method) return;
+
+        fields.paymentDetails.style.display = 'block';
+        fields.imageContainer.style.display = 'block';
+        fields.image.className = ''; // Reset icon
+
+        switch (method) {
+            case 'Credit Card':
+                fields.cardDetails.style.display = 'block';
+                fields.cardExpiry.style.display = 'block';
+                fields.cvv.style.display = 'block';
+                fields.image.className = 'fas fa-credit-card text-primary';
+                break;
+            case 'Debit Card':
+                fields.cardDetails.style.display = 'block';
+                fields.cardExpiry.style.display = 'block';
+                fields.cvv.style.display = 'block';
+                fields.image.className = 'fas fa-credit-card text-info';
+                break;
+            case 'Bank Transfer':
+                fields.bankDetails.style.display = 'block';
+                fields.image.className = 'fas fa-university text-success';
+                break;
+            case 'Cash on Delivery':
+                fields.image.className = 'fas fa-money-bill-wave text-warning';
+                break;
+            case 'UPI':
+                fields.upiDetails.style.display = 'block';
+                fields.image.className = 'fas fa-qrcode text-dark';
+                break;
+        }
+
+        fields.txnId.style.display = (method !== 'Cash on Delivery') ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.payment-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const method = this.dataset.method;
+                document.getElementById('payment_method').value = method;
+
+                document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+
+                showPaymentDetails();
+            });
+        });
+    });
+</script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% include 'footer.html' %}

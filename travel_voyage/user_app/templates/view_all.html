@@ -1,0 +1,68 @@
+{% include "header.html" %}
+{% load static %}
+
+<div class="container my-5">
+    <div class="row justify-content-center pb-4">
+        <div class="col-md-12 heading-section text-center ftco-animate">
+            <span class="subheading text-uppercase text-primary">{{ title }}</span>
+            <h2 class="mb-4">Explore {{ title }}</h2>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Destinations -->
+        {% if destinations %}
+        <h3 class="col-12 text-center mb-3">Destinations</h3>
+        {% for destination in destinations %}
+        <div class="col-md-4 ftco-animate mb-4">
+            <div class="project-wrap shadow rounded overflow-hidden">
+                <a href="{% url 'destination_detail' destination.id %}" class="img d-block" 
+                   style="background-image: url('{{ destination.image.url|default:"/static/images/destination-1.jpg" }}'); height: 200px; background-size: cover; background-position: center;">
+                    <span class="price badge badge-primary">{{ destination.place }}</span>
+                </a>
+                <div class="text p-4 text-center">
+                    <h3 class="text-dark"><a href="{% url 'destination_detail' destination.id %}" class="text-decoration-none">{{ destination.place }}</a></h3>
+                    <p class="text-muted">{{ destination.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <!-- Activities -->
+        {% if activities %}
+        <h3 class="col-12 text-center mt-5 mb-3">Activities</h3>
+        {% for activity in activities %}
+        <div class="col-md-4 ftco-animate mb-4">
+            <div class="services services-1 color-1 d-block img rounded shadow-sm" 
+                 style="background-image: url({{ activity.image.url }}); height: 200px; background-size: cover; background-position: center;">
+                <div class="text p-3 text-white bg-overlay">
+                    <h3 class="heading">{{ activity.spot_name }}</h3>
+                    <p>{{ activity.description }}</p>
+                    <a href="{% url 'activity_detail' activity.id %}" class="btn btn-light btn-sm">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <!-- Accommodations -->
+        {% if accommodations %}
+        <h3 class="col-12 text-center mt-5 mb-3">Accommodations</h3>
+        {% for accommodation in accommodations %}
+        <div class="col-md-4 ftco-animate mb-4">
+            <div class="project-wrap shadow rounded overflow-hidden">
+                <a href="{% url 'accommodation_detail' accommodation.id %}" class="img d-block" 
+                   style="background-image: url({{ accommodation.images.all.0.image.url|default:'images/accommodation-placeholder.jpg' }}); height: 200px; background-size: cover; background-position: center;">
+                    <span class="price badge badge-secondary">${{ accommodation.price_per_night }}/night</span>
+                </a>
+                <div class="text p-4 text-center">
+                    <h3 class="text-dark"><a href="{% url 'accommodation_detail' accommodation.id %}" class="text-decoration-none">{{ accommodation.name }}</a></h3>
+                    <p class="text-muted">{{ accommodation.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% include "footer.html" %}

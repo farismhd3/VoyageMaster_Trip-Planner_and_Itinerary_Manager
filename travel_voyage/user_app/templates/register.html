@@ -1,0 +1,37 @@
+{% include 'header.html' %}
+{% load static %}
+<body style="background-image: url('{% static 'images/bg_1.jpg' %}'); background-size: cover; background-position: center;">
+<section class="ftco-section contact-section ftco-no-pt mt-5">
+    <div class="overlay"></div>
+    <div class="container mt-5" style="position: relative; z-index: 2;">
+        <div class="row justify-content-center" srt>
+            <div class="col-md-5 mt-5 bg-transparent"> <!-- Adjusted column width -->
+                <div class="card shadow-lg border-0 rounded" style="background:
+rgba(30, 30, 30, 0.7);
+  backdrop-filter: blur(15px);">
+                    <div class="card-body p-4">
+                        <h2 class="text-center text-white mb-4" style="font-weight: bold;">Register As {{ title }}</h2>
+                        <form action="" method="post" class="request-form contact-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              {{ form.as_p }}
+                            </div>
+                            <div class="form-group mt-4">
+                                <input type="submit" value="Register" class="btn btn-primary btn-block py-3 px-4">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+
+    
+    label{
+        color: #fff;
+    }
+</style>
+</body>
+{% include 'footer.html' %}

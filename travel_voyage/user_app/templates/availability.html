@@ -1,0 +1,23 @@
+{% include 'header.html' %}
+<body>
+    <br>
+    <br>
+    <br>
+    <div class="container mt-5">
+
+        <h2 class="text-center">Set Availability</h2>
+
+        <form method="POST" action="{% url 'set_availability' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="availability">Your Availability:</label>
+                <select name="availability" id="availability" class="form-control">
+                    <option value="available" {% if guide.availability == 'available' %}selected{% endif %}>Available</option>
+                    <option value="unavailable" {% if guide.availability == 'unavailable' %}selected{% endif %}>Unavailable</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Update Availability</button>
+        </form>
+    </div>
+</body>
+{% include 'footer.html' %}

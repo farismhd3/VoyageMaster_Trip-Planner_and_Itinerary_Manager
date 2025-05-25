@@ -1,0 +1,48 @@
+{% load static %}
+{% include 'header.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/add_feedback.css' %}">
+<body>
+    <div class="banner-w3l-main">
+        <div class="container">
+            <h1 class="my-4 text-center">Add Query</h1>
+            
+            <!-- Form inside a container for proper layout -->
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="rating">Rating</label>
+                            <div class="star-rating">
+                                <!-- 1 to 5 stars in order -->
+                                <input type="radio" id="1-star" name="rating" value="1" {% if form.rating.value == 1 %}checked{% endif %}>
+                                <label for="1-star" class="star">&#9733;</label>
+
+                                <input type="radio" id="2-stars" name="rating" value="2" {% if form.rating.value == 2 %}checked{% endif %}>
+                                <label for="2-stars" class="star">&#9733;</label>
+
+                                <input type="radio" id="3-stars" name="rating" value="3" {% if form.rating.value == 3 %}checked{% endif %}>
+                                <label for="3-stars" class="star">&#9733;</label>
+
+                                <input type="radio" id="4-stars" name="rating" value="4" {% if form.rating.value == 4 %}checked{% endif %}>
+                                <label for="4-stars" class="star">&#9733;</label>
+
+                                <input type="radio" id="5-stars" name="rating" value="5" {% if form.rating.value == 5 %}checked{% endif %}>
+                                <label for="5-stars" class="star">&#9733;</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            {{ form.comments.label_tag }}
+                            {{ form.comments }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-custom">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

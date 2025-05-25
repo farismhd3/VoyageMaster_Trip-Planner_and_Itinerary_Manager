@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Pacific - Free Bootstrap 4 Template by Colorlib</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+		<div class="container">
+			<a class="navbar-brand" href="/">Pacific<span>Travel Agency</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+					{% if request.session.ut == 0 %} <!-- Traveler -->
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/user_dashboard" class="nav-link">Dashboard</a></li>
+					<li class="nav-item"><a href="/recommendations" class="nav-link">Recommendations</a></li>
+					<li class="nav-item"><a href="/trips/package_list" class="nav-link">Package List</a></li>
+					{% if unread_count > 0 %}
+					<li class="nav-item">
+						<a href="/notifications" class="nav-link">
+							<i class="fa fa-bell"></i> Notifications <span class="badge bg-danger">{{ unread_count }}</span>
+						</a>
+					</li>
+					{% else %}
+					<li class="nav-item">
+						<a href="/notifications" class="nav-link">
+							 Notifications
+						</a>
+					</li>
+					{% endif %}
+					<li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+
+					{% elif request.session.ut == 1 %} <!-- Admin -->
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/admin_dashboard" class="nav-link">Dashboard</a></li>
+					
+					<li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+
+                    {% elif request.session.ut == 2 %} <!-- Travel Agency -->
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/travel_agency_dashboard" class="nav-link">Dashboard</a></li>
+					<li class="nav-item"><a href="/add_notification" class="nav-link"> Notification</a></li>
+					<li class="nav-item"><a href="/logout" class="nav-link">Logout</a></li>
+
+                    
+					
+					
+					{% else %} <!-- General (Not Logged In) -->
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+					<li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+					<li class="nav-item dropdown">
+						<a href="#" class="nav-link dropdown-toggle" id="registerDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Register</a>
+						<ul class="dropdown-menu" aria-labelledby="registerDropdown">
+							<li><a class="dropdown-item" href="/user_register">User</a></li>
+							<li><a class="dropdown-item" href="/traveller_register">Traveler</a></li>
+						</ul>
+					</li>
+					<li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>

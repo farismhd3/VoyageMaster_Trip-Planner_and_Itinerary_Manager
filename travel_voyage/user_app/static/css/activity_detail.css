@@ -1,0 +1,138 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f7f9fc;
+    color: #424242;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Activity Section */
+.activity-section {
+    text-align: center;
+}
+
+.activity-header {
+    margin-bottom: 2rem;
+}
+
+.activity-title {
+    font-size: 3rem;
+    font-weight: bold;
+    color: orange;
+    margin-bottom: 1rem;
+}
+
+.activity-description {
+    font-size: 1.2rem;
+    color: #616161;
+    margin-bottom: 2rem;
+}
+
+.activity-image img {
+    width: 80%;
+    max-width: 500px;
+    border-radius: 50%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Destination Section */
+.destination-section {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+    font-size: 2rem;
+    color: orange;
+    margin-bottom: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color:orange;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-size: 1rem;
+    color: #616161;
+}
+
+/* Accommodations Section */
+.accommodations-section {
+    margin-top: 4rem;
+}
+
+.accommodation-card {
+    background-color: #ffffff;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accommodation-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-body h3 {
+    font-size: 1.8rem;
+    color: orange;
+    margin-bottom: 1rem;
+}
+
+.card-body p {
+    font-size: 1rem;
+    color: #616161;
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    background-color: orange;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: orange;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .activity-image img {
+        width: 100%;
+    }
+
+    .accommodation-card {
+        margin-bottom: 1.5rem;
+    }
+
+    .accommodations-section .row {
+        margin-top: 3rem;
+    }
+}

@@ -1,0 +1,110 @@
+<div class="container mt-4">
+    <h3 class="text-center text-white">Bookings</h3>
+
+    <!-- Accommodation Bookings Section -->
+    <h4 class="text-center text-primary">Accommodation Bookings</h4>
+    <table class="table table-bordered mt-3 bg-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Booking ID</th>
+                <th>User Name</th>
+                <th>Accommodation</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Guests</th>
+                <th>Total Price</th>
+                <th>Payment Status</th>
+                <th>Cancel Status</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            {% if booking.trip is null %}  <!-- Check if it's an accommodation booking -->
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.accommodation.name }}</td>
+                <td>{{ booking.check_in }}</td>
+                <td>{{ booking.check_out }}</td>
+                <td>{{ booking.guests }}</td>
+                <td>${{ booking.total_price }}</td>
+                <td>
+                    {% if booking.p_status == 'Paid' %}
+                        <span class="text-success">Paid</span>
+                    {% elif booking.p_status == 'Pending' %}
+                        <span class="text-warning">Pending</span>
+                    {% elif booking.status == 'Cancelled' %}
+                        <span class="text-muted">Cancelled</span>
+                    {% else %}
+                        <span class="text-danger">Unknown Status</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.status == 'Cancelled' %}
+                        <span class="text-muted">Cancelled</span>
+                    {% elif booking.p_status == 'Pending' and booking.check_out > today %}
+                        <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                    {% else %}
+                        <span class="text-muted">Cannot cancel</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Trip Bookings Section -->
+    <h4 class="text-center text-primary">Trip Bookings</h4>
+    <table class="table table-bordered mt-3 bg-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Booking ID</th>
+                <th>User Name</th>
+                <th>Trip Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                
+                <th>Total Price</th>
+                <th>Payment Status</th>
+                <th>Cancel Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in trip_bookings %}
+            {% if booking.trip is not null %}  <!-- Check if it's a trip booking -->
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td><a href="{% url 'itinerary_list' booking.trip.id %}">{{ booking.trip.name }}</a></td>
+                <td>{{ booking.trip.start_date }}</td>
+                <td>{{ booking.trip.end_date }}</td>
+                
+                <td>${{ booking.trip.budget }}</td>
+                <td>
+                    {% if booking.p_status == 'Paid' %}
+                        <span class="text-success">Paid</span>
+                    {% elif booking.p_status == 'Pending' %}
+                        <span class="text-warning">Pending</span>
+                    {% elif booking.status == 'Cancelled' %}
+                        <span class="text-muted">Cancelled</span>
+                    {% else %}
+                        <span class="text-danger">Unknown Status</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.status == 'Cancelled' %}
+                        <span class="text-muted">Cancelled</span>
+                    {% elif booking.p_status == 'Pending' and booking.trip.end_date > today %}
+                        <a href="{% url 'cancel_trip_booking' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                    {% else %}
+                        <span class="text-muted">Cannot cancel</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,100 @@
+{% include 'header.html' %}
+<body style="background-image: url('/static/images/bg_1.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="container mt-5 p-4 rounded shadow bg-dark bg-opacity-75">
+        <h2 class="text-center text-white mb-4">Travel Agency Dashboard</h2>
+
+        <!-- Top Button Controls -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('destinationsTable')">
+                <i class="fa fa-eye"></i> View Destinations
+            </button>
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('activitiesTable')">
+                <i class="fa fa-eye"></i> View Activities
+            </button>
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('accommodationsTable')">
+                <i class="fa fa-eye"></i> View Accommodations
+            </button>
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('bookingsTable')">
+                <i class="fa fa-book"></i> My Bookings
+            </button>
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('expenseTable')">
+                <i class="fa fa-money-bill-wave"></i> Expense Tracker
+            </button>
+            <button class="btn btn-info d-flex align-items-center gap-2" onclick="showSection('tripsTable')">
+                <i class="fa fa-plane"></i> Manage Trips
+            </button>
+        </div>
+
+        <!-- Content Sections (Initially Hidden) -->
+        <div id="destinationsTable" class="mt-3 d-none">
+            {% include 'manage_destination.html' %}
+        </div>
+        <div id="activitiesTable" class="mt-3 d-none">
+            {% include 'manage_activities.html' %}
+        </div>
+        <div id="accommodationsTable" class="mt-3 d-none">
+            {% include 'manage_accomadation.html' %}
+        </div>
+        <div id="bookingsTable" class="mt-3 d-none">
+            {% include 'agency_vw_bookings.html' %}
+        </div>
+        <div id="expenseTable" class="mt-3">
+            <h4 class="text-white">Select Year for Expenses</h4>
+            <form method="get" action="{% url 'travel_agency_dashboard' %}">
+                <input type="hidden" name="section" value="expenseTable">
+                <select name="year" class="form-select" onchange="this.form.submit()">
+                    <option value="">Select Year</option>
+                    {% for year in available_years %}
+                        <option value="{{ year.year }}" {% if year.year == selected_year %}selected{% endif %}>{{ year.year }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        
+            <h5 class="text-white mt-3">Expenses for {{ selected_year }}</h5>
+            <div id="expenseSection">
+                {% include 'expense.html' %}
+            </div>
+        </div>
+        <div id="tripsTable" class="mt-3 d-none">
+            {% include 'manage_trip.html' %}  <!-- Include the trip management template -->
+        </div>
+        
+    </div>
+
+    <!-- JS to Handle Section Switching -->
+    <script>
+        function showSection(sectionId) {
+            const sections = ['destinationsTable', 'activitiesTable', 'accommodationsTable', 'bookingsTable', 'expenseTable', 'tripsTable'];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.add('d-none');
+                }
+            });
+
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('d-none');
+                // Reapply styles or any additional initialization if needed
+            }
+        }
+
+        // Show default section (destinations) on load
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const year = urlParams.get('year');
+            const section = urlParams.get('section') || 'destinationsTable'; // Default to destinations
+
+            if (year) {
+                showSection(section); // Show the selected section
+            } else {
+                showSection('destinationsTable'); // Default to destinations if no year is selected
+            }
+        });
+    </script>
+
+    <!-- Bootstrap & Font Awesome (Optional, if not in header.html) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

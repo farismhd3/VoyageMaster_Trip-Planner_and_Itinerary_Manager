@@ -1,0 +1,271 @@
+{% include 'header.html' %}
+
+<style>
+    /* Option 4: Orange/Yellow Variant (Dark Background) */
+    .card-glass {
+        background: rgba(30, 30, 30, 0.8); /* Darker background for the card */
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(80, 80, 80, 0.2); /* Darker border */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Increased shadow for visibility */
+        border-radius: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #fff; /* Light text color */
+    }
+
+    .card-glass:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Increased shadow on hover */
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #ffc107, #ff9800); /* Yellow to Orange gradient */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-fancy {
+        background: linear-gradient(to right, #ffc107, #ff9800); /* Yellow to Orange gradient */
+        color: #fff;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-fancy:hover {
+        background: linear-gradient(to right, #ff9800, #ffc107); /* Orange to Yellow gradient on hover */
+    }
+
+    /* Ensure all text within the card is white */
+    .card-glass .card-body * {
+        color: #fff !important; /* Use !important to override other styles */
+    }
+
+    /* Adjustments for specific elements */
+    .card-glass .card-body .text-muted {
+        color: rgba(255, 255, 255, 0.7) !important; /* Slightly transparent white for muted text */
+    }
+
+    .card-glass .card-body a {
+        color: #fff !important; /* White links */
+    }
+
+    .card-glass .card-body .btn-outline-secondary,
+    .card-glass .card-body .btn-outline-primary,
+    .card-glass .card-body .btn-outline-danger {
+        color: #fff !important; /* White text for outline buttons */
+        border-color: rgba(255, 255, 255, 0.5) !important; /* Slightly transparent white border */
+    }
+
+    .card-glass .card-body .btn-outline-secondary:hover,
+    .card-glass .card-body .btn-outline-primary:hover,
+    .card-glass .card-body .btn-outline-danger:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important; /* Slightly transparent white background on hover */
+    }
+
+    /* Option 1: For a Dark Background */
+    /*  This option uses lighter colors for contrast against a dark background. */
+    /*.card-glass {
+        background: rgba(30, 30, 30, 0.8); /* Darker background for the card */
+        /*backdrop-filter: blur(10px);
+        border: 1px solid rgba(80, 80, 80, 0.2); /* Darker border */
+        /*box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Increased shadow for visibility */
+        /*border-radius: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: #fff; /* Light text color */
+    /*}
+
+    /*.card-glass:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4); /* Increased shadow on hover */
+    /*}
+
+    /*.text-gradient {
+        background: linear-gradient(to right, #4dabf7, #a370f7); /* Lighter gradient */
+        /*-webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    /*}
+
+    /*.btn-fancy {
+        background: linear-gradient(to right, #4dabf7, #a370f7); /* Lighter gradient */
+        /*color: #fff;
+        border: none;
+        transition: background 0.3s ease;
+    /*}
+
+    /*.btn-fancy:hover {
+        background: linear-gradient(to right, #a370f7, #4dabf7); /* Lighter gradient on hover */
+    /*}*/
+
+    /* Option 2: For a Light/Neutral Background */
+    /* If your background is light, these colors will provide better contrast. */
+    /*  (You can uncomment this section and comment out Option 4 if needed) */
+
+    /*.card-glass {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(200, 200, 200, 0.2);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-glass:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #0d6efd, #6610f2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-fancy {
+        background: linear-gradient(to right, #0d6efd, #6610f2);
+        color: #fff;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-fancy:hover {
+        background: linear-gradient(to right, #6610f2, #0d6efd);
+    }*/
+
+    /* Option 3:  Monochromatic (Gray/Neutral) */
+    /*  Good for backgrounds that are already colorful or have a strong pattern. */
+    /*  (Uncomment this section and comment out the others if needed) */
+
+    /*.card-glass {
+        background: rgba(240, 240, 240, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(180, 180, 180, 0.2);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        border-radius: 1rem;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card-glass:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-gradient {
+        background: linear-gradient(to right, #555, #888);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-fancy {
+        background: linear-gradient(to right, #555, #888);
+        color: #fff;
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-fancy:hover {
+        background: linear-gradient(to right, #888, #555);
+    }*/
+
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Left Column: Discussions -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-gradient">Community Discussions</h2>
+                <a href="{% url 'community:create_discussion' %}" class="btn btn-fancy px-4">
+                    <i class="fa fa-plus me-1"></i> Start Discussion
+                </a>
+            </div>
+
+            {% for discussion in discussions %}
+                <div class="card card-glass mb-4 p-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0 fw-semibold">
+                                <a href="{% url 'community:discussion_detail' discussion.pk %}" class="text-decoration-none text-dark">
+                                    {{ discussion.title }}
+                                </a>
+                            </h5>
+                            <span class="badge bg-gradient bg-primary px-3 py-2 rounded-pill shadow-sm">
+                                {{ discussion.posts.count }} Posts
+                            </span>
+                        </div>
+
+                        <p class="text-muted small mb-2">
+                            Started by <strong>{{ discussion.creator.username }}</strong> on {{ discussion.created_at|date:"F j, Y" }}
+                            {% if discussion.destination %}
+                                | <i class="fa fa-map-marker-alt"></i> <em>{{ discussion.destination.place }}</em>
+                            {% endif %}
+                        </p>
+
+                        <p class="mb-3">{{ discussion.description|truncatewords:30 }}</p>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="{% url 'community:discussion_detail' discussion.pk %}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-eye"></i> View Posts
+                            </a>
+                            <a href="{% url 'community:create_post' discussion.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-comment"></i> Add Post
+                            </a>
+                        </div>
+                        {% if user == discussion.creator %}
+                            <form action="{% url 'community:delete_discussion' discussion.pk %}" method="post" onsubmit="return confirm('Are you sure you want to delete this discussion?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="fa fa-trash"></i> Delete
+                                </button>
+                            </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning border-0 shadow-sm rounded-3">
+                    <strong>No discussions yet.</strong> Be the first to start a conversation!
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Right Column: Sidebar -->
+        <div class="col-lg-4">
+            <!-- Stats -->
+            <div class="card card-glass mb-4">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0 text-gradient">Quick Stats</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center border-0">
+                            Total Discussions
+                            <span class="badge bg-primary rounded-pill">{{ total_discussions }}</span>
+                        </li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center border-0">
+                            Your Discussions
+                            <span class="badge bg-primary rounded-pill">{{ user_discussions_count }}</span>
+                        </li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center border-0">
+                            Your Posts
+                            <span class="badge bg-primary rounded-pill">{{ user_posts_count }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Popular Destinations -->
+            <div class="card card-glass">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0 text-gradient">Popular Destinations</h5>
+                </div>
+                <div class="card-body">
+                    {% for destination in popular_destinations %}
+                        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center mb-1 border-0 rounded shadow-sm">
+                            {{ destination.place }}
+                            <span class="badge bg-primary">{{ destination.discussion_count }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

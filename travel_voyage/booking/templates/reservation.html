@@ -1,0 +1,63 @@
+{% include 'header.html' %}
+{% load static %}
+<body style="background-image: url('{% static 'images/bg_1.jpg' %}'); background-size: cover; background-position: center;">
+    <div class="container py-5">
+        <h1 class="text-center text-primary mb-4">Book Your Stay</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form method="post" action="{% url 'confirm_booking' accommodation.id %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="mb-3">
+                        <label for="total_cost" class="form-label">Total Cost</label>
+                        <input type="text" id="total_cost" class="form-control" readonly>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkinInput = document.querySelector('#id_check_in');
+            const checkoutInput = document.querySelector('#id_check_out');
+            const guestsInput = document.querySelector('#id_guests'); // Assuming you have an input for guests
+            const totalCostInput = document.querySelector('#total_cost');
+            const pricePerNight = {{ accommodation.price_per_night }}; // Pass this from the view
+
+            // Disable past dates for check-in and check-out
+            const today = new Date().toISOString().split('T')[0];
+            if (checkinInput) {
+                checkinInput.setAttribute('min', today);
+            }
+            if (checkoutInput) {
+                checkoutInput.setAttribute('min', today);
+            }
+
+            // Calculate total cost
+            function calculateTotal() {
+                const checkinDate = new Date(checkinInput.value);
+                const checkoutDate = new Date(checkoutInput.value);
+                const guests = parseInt(guestsInput.value) || 0;
+
+                if (checkinDate && checkoutDate && guests > 0) {
+                    const numDays = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
+                    const totalCost = numDays * pricePerNight * guests;
+                    totalCostInput.value = totalCost.toFixed(2); // Format to 2 decimal places
+                } else {
+                    totalCostInput.value = '';
+                }
+            }
+
+            checkinInput.addEventListener('change', calculateTotal);
+            checkoutInput.addEventListener('change', calculateTotal);
+            guestsInput.addEventListener('input', calculateTotal);
+        });
+    </script>
+    <style>
+        label{
+            color: black;
+        }
+    </style>
+</body>
+{% include 'footer.html' %}

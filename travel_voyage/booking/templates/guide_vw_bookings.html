@@ -1,0 +1,55 @@
+{% include 'header.html' %}
+
+<div class="container mt-4">
+    <h3 class="text-center">Assigned Bookings</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead class="thead-light">
+            <tr>
+                <th>Booking ID</th>
+                <th>User Name</th>
+                <th>Accommodation</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ booking.user.username }}</td>
+                <td>{{ booking.accommodation.name }}</td>
+                <td>{{ booking.check_in }}</td>
+                <td>{{ booking.check_out }}</td>
+                <td>
+                    {% if booking.status == 'Completed' %}
+                        <span class="text-success">Completed</span>
+                    {% else %}
+                        <span class="text-warning">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if booking.status == 'Pending' and booking.is_past_checkout %}
+                        <form method="POST" action="{% url 'mark_as_completed' booking.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Mark as Completed</button>
+                        </form>
+                    {% elif booking.status == 'Completed' %}
+                        <span class="text-success">Already Completed</span>
+                    {% else %}
+                        <span class="text-muted">Cannot Mark Before Checkout</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No bookings assigned to you.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'footer.html' %}

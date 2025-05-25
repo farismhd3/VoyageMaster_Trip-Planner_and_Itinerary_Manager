@@ -1,0 +1,173 @@
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f4f8;  /* Lighter background for better contrast */
+  background: url('/static/images/bg_1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+}
+
+/* Accommodation Details Section */
+.accommodation-details {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #e2e9f3 0%, #f9f9f9 100%); /* Subtle gradient for more depth */
+}
+
+.accommodation-details:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.accommodation-details h1 {
+  color: #2d3b56;  /* Deep blue tone */
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.accommodation-details p {
+  color: #555;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+/* Carousel Styling */
+.carousel-inner img {
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: rgba(0, 123, 255, 0.6);
+  border-radius: 50%;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* Price & Amenities Section */
+ul.list-unstyled {
+  font-size: 1.1rem;
+  color: #444;
+  margin-top: 1rem;
+  line-height: 1.8;
+}
+
+ul.list-unstyled li {
+  margin-bottom: 1rem;
+}
+
+ul.list-unstyled li strong {
+  color: #0062cc;  /* Soft blue tone */
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn-primary, .btn-warning, .btn-secondary {
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.btn-warning {
+  background-color: #ff9f00;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+.btn-warning:hover {
+  background-color: #ff8a00;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Related Destination & Nearby Activities */
+.destination-details, .nearby-activities {
+  background-color: #f0f4f8;  /* Soft background color */
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.destination-details h2, .nearby-activities h3 {
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.activity-item {
+  margin-bottom: 1.5rem;
+}
+
+.activity-item h4 {
+  color: #0062cc;  /* Highlight color */
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.activity-item p {
+  color: #777;
+  font-size: 1rem;
+}
+
+.activity-item .btn {
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .accommodation-details {
+      padding: 1.5rem;
+  }
+
+  .carousel-inner img {
+      height: 250px;
+  }
+
+  .col-lg-8, .col-lg-4 {
+      width: 100%;
+      margin-bottom: 1rem;
+  }
+
+  .activity-item h4 {
+      font-size: 1.1rem;
+  }
+}

@@ -1,0 +1,56 @@
+{% load static %}
+{% include 'header.html' %}
+<br><br><br>
+<body style="background: url('{% static 'images/bg_1.jpg' %}') no-repeat center center fixed; background-size: cover;">
+    <div class="container mt-5 p-4 rounded shadow bg-dark  bg-opacity-75" style="background-color:transparent;">
+        <h2 class="text-center">Agency Notifications</h2>
+
+        <!-- Form to Add a New Notification -->
+        <form method="POST" action="{% url 'add_notification' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.as_p}}
+            </div>
+            <button type="submit" class="btn btn-primary">Add Notification</button>
+        </form>
+
+        <hr>
+
+        <!-- Table to Display Existing Notifications -->
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr class="text-warning">
+                    <th>Message</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for notification in notifications %}
+                <tr class="text-white">
+                    <td>{{ notification.message }}</td>
+                    <td>{{ notification.created_at }}</td>
+                    <td>
+                        {% if notification.is_read %}
+                            <span class="text-success">Read</span>
+                        {% else %}
+                            <span class="text-warning">Unread</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not notification.is_read %}
+                            <a href="{% url 'mark_agency_notification_as_read' notification.id %}" class="btn btn-primary btn-sm">Mark as Read</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No notifications available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+{% include 'footer.html' %}

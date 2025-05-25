@@ -1,0 +1,115 @@
+{% load static %}
+
+
+<div class="container mt-5">
+    <h2 class="text-center text-white">Agency Expense Tracker</h2>
+
+    <h3 class="text-white">Total Expenses: ${{ total_expense }}</h3>
+
+   
+    
+    <h4 class="mt-4 text-white">Monthly Expenses</h4>
+    <canvas id="monthlyExpensesChart" width="400" height="200"></canvas>
+
+    <h4 class="mt-4 text-white">All Bookings</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Accommodation</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Guests</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.accommodation.name }}</td>
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                    <td>{{ booking.guests }}</td>
+                    <td>${{ booking.total_price }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No bookings available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('monthlyExpensesChart').getContext('2d');
+    const monthlyExpensesChart = new Chart(ctx, {
+        type: 'line', // Change to 'bar' for a bar chart
+        data: {
+            labels: {{ months|safe }}, // Pass the months data
+            datasets: [{
+                label: 'Monthly Expenses',
+                data: {{ expenses|safe }}, // Pass the expenses data
+                borderColor: 'rgb(67, 158, 181)', // Change line color
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Change fill color
+                borderWidth: 2,
+                fill: true,
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Total Cost ($)',
+                        color: 'white' // Change y-axis title color
+                    },
+                    ticks: {
+                        color: 'white' // Change y-axis tick color
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month',
+                        color: 'white' // Change x-axis title color
+                    },
+                    ticks: {
+                        color: 'white' // Change x-axis tick color
+                    }
+                }
+            }
+        }
+    });
+
+    function showSection(sectionId) {
+        const sections = ['destinationsTable', 'activitiesTable', 'accommodationsTable', 'bookingsTable', 'expenseTable'];
+        sections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) {
+                section.classList.add('d-none');
+            }
+        });
+
+        const activeSection = document.getElementById(sectionId);
+        if (activeSection) {
+            activeSection.classList.remove('d-none');
+        }
+    }
+
+    // Show the appropriate section on load
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const year = urlParams.get('year');
+
+        if (year) {
+            showSection('expenseTable'); // Show the expense section if a year is selected
+        } else {
+            showSection('destinationsTable'); // Default to destinations if no year is selected
+        }
+    });
+</script>
+

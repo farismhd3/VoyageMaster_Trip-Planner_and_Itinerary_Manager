@@ -1,0 +1,154 @@
+{% load static %}
+{% include 'header.html' %}
+
+<body>
+    <br><br>
+<div class="container py-5">
+    <h1 class="text-center mb-5" style="font-size: 2.5rem; color: #007bff;">🌍 Recommended Destinations</h1>
+    <div class="list-group">
+
+        {% for item in recommendations_with_posts %}
+            <div class="list-group-item mb-4 p-4 shadow-lg rounded-4 border-start border-4 border-primary">
+                <!-- Destination Header -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Medal-style badge -->
+                    <a href="{% url 'destination_detail' item.recommendation.id %}">
+
+                        <div class="position-relative top-badge me-2">
+                            <img src="{% static 'images/badge.png' %}" alt="Top Badge" class="badge-img">
+                            <span class="badge-number">{{ forloop.counter }}</span>
+                        </div>
+                        <h4 class="mb-0 text-white" style="font-weight: 700; color: #333;">{{ item.recommendation.place }}</h4>
+                    </a>
+                    </div>
+                    <a href="{% url 'destination_detail' item.recommendation.id %}">
+                    <img src="{{ item.recommendation.image.url }}"
+                         class="img-fluid rounded-3 ms-3"
+                         style="max-height: 100px; object-fit: cover; border: 2px solid #007bff;">
+                    </a>
+                         <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ item.recommendation.id }}" aria-expanded="false"
+                            aria-controls="collapse{{ item.recommendation.id }}">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    </a>
+                </div>
+
+                <!-- Description -->
+                <p class="mt-3 text-white" style="color: #555; font-size: 1.1rem;">{{ item.recommendation.description }}</p>
+
+                <!-- Posts Section -->
+                <div class="collapse mt-4" id="collapse{{ item.recommendation.id }}">
+                    {% if item.posts %}
+                        {% for post_bundle in item.posts %}
+                            <div class="border-top pt-4 mt-4">
+                                <h5 style="color: #007bff;">{{ post_bundle.post.title }}</h5>
+
+                                {% if post_bundle.post.image %}
+                                    <img src="{{ post_bundle.post.image.url }}"
+                                         class="img-fluid rounded-3 my-2"
+                                         style="max-height: 200px; object-fit: cover;">
+                                {% endif %}
+
+                                <p>{{ post_bundle.post.content|truncatewords:25 }}</p>
+
+                                <div class="d-flex justify-content-between align-items-center text-muted mb-2">
+                                    <small>Posted on {{ post_bundle.post.created_at }}</small>
+                                    <div class="d-flex gap-2">
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-thumbs-up text-primary"></i> {{ post_bundle.post.likes.count }}
+                                        </span>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="fas fa-comments text-secondary"></i> {{ post_bundle.comments|length }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Comments Section -->
+                                {% if post_bundle.comments %}
+                                    <div class="ps-3 mt-2">
+                                        {% for comment in post_bundle.comments %}
+                                            <div class="border-start ps-3 mb-2">
+                                                <p class="mb-1">{{ comment.content }}</p>
+                                                <small class="text-muted">— {{ comment.author.username }}, {{ comment.created_at }}</small>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="text-muted">No comments yet.</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted mt-3">No posts available for this destination.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap & Font Awesome -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom Styles -->
+<style>
+   
+    
+
+    .list-group-item {
+        background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background for the container */
+        backdrop-filter: blur(15px);
+        box-shadow: 0 4px 8px rgba(1, 1, 1, 0.3);
+        border-radius: 15px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        color: #fff;
+    }
+
+    .list-group-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .img-fluid:hover {
+        transform: scale(1.03);
+        transition: transform 0.3s ease;
+    }
+
+    /* Badge styles */
+    .top-badge {
+        width: 60px;
+        height: 60px;
+    }
+
+    .badge-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .badge-number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-shadow: 0 0 3px #000;
+    }
+
+    .badge {
+        font-size: 0.85rem;
+        padding: 0.5em 0.75em;
+    }
+    .text-muted, .title{
+        color: #fff;
+    }
+</style>
+
+{% include 'footer.html' %}

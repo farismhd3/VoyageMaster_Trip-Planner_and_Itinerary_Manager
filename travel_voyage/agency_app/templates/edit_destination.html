@@ -1,0 +1,60 @@
+{% load static %}
+
+<!-- Include header template -->
+{% include 'header.html' %}
+
+<br><br><br><br>
+
+<div class="modal-content" style="width: 50%; margin: 0 auto;">
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Destination</h5>
+    </div>
+    <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Destination Fields -->
+            <div class="form-group">
+                {{ edit_destination_form.place.label_tag }} <span style="color:red;">*</span>
+                {{ edit_destination_form.place }}
+                {% if edit_destination_form.place.errors %}
+                    <div class="text-danger small">{{ edit_destination_form.place.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ edit_destination_form.description.label_tag }}
+                {{ edit_destination_form.description }}
+                {% if edit_destination_form.description.errors %}
+                    <div class="text-danger small">{{ edit_destination_form.description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ edit_destination_form.travel_id.label_tag }} <span style="color:red;">*</span>
+                {{ edit_destination_form.travel_id }}
+                {% if edit_destination_form.travel_id.errors %}
+                    <div class="text-danger small">{{ edit_destination_form.travel_id.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ edit_destination_form.image.label_tag }}
+                {{ edit_destination_form.image }}
+                {% if edit_destination_form.image.errors %}
+                    <div class="text-danger small">{{ edit_destination_form.image.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Image Upload Section -->
+           
+           
+            
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- Include footer template -->
+{% include 'footer.html' %}
+

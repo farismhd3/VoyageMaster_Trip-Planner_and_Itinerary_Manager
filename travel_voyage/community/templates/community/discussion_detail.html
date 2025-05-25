@@ -1,0 +1,328 @@
+{% include 'header.html' %}
+{% load static %}
+{% block title %}{{ discussion.title }} - Travel Voyage Community{% endblock %}
+
+<style>
+    /* General Body and Layout */
+    body {
+        background-image: url('{% static 'images/bg_1.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        color: #fff; /* Default text color to white */
+        font-family: sans-serif; /* A more readable font */
+    }
+    .container1 {
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .card-glass {
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+        backdrop-filter: blur(15px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        {% comment %} transition: all 0.3s ease-in-out; {% endcomment %}
+    }
+
+    .card-glass:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+        background:transparent;
+    }
+
+    .card-title {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ff5e62, #ff9966);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 15px;
+    }
+    .text-muted {
+        color: rgba(255, 255, 255, 0.7) !important; /* Slightly transparent white for muted text */
+    }
+
+    .post-card, .comment-card {
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        transition: 0.3s ease;
+    }
+
+    .post-card:hover, .comment-card:hover {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .avatar {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background-color: #ff5e62;
+        color: white;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+    }
+
+    .btn-like {
+        background-color: transparent;
+        border: 2px solid #dc3545;
+        color: #dc3545;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-like:hover {
+        background-color: #dc3545;
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .btn-like i {
+        transition: transform 0.2s ease;
+    }
+
+    .btn-like:hover i {
+        transform: scale(1.2);
+    }
+
+    .input-group textarea, .input-group input {
+        border-radius: 0.8rem;
+        padding: 10px 20px;
+        border: 1px solid #ced4da;
+        font-size: 1rem;
+        background-color: #f8f9fa;
+        margin-bottom: 15px;
+    }
+
+    .input-group .btn {
+        border-radius: 0.8rem;
+    }
+
+    .alert-info {
+        background-color: #e0f7fa;
+        border-left: 5px solid #00bcd4;
+        padding: 15px;
+        font-size: 1rem;
+        border-radius: 8px;
+    }
+
+    img.img-fluid.rounded.mb-3 {
+        max-height: 350px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .comment-card {
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+        margin-left: 2rem;
+    }
+
+    /* Sidebar */
+    .sidebar-card {
+        border-radius: 15px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .sidebar-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-card .card-header {
+        background: #ff9966;
+        color: white;
+        border-radius: 15px 15px 0 0;
+        font-weight: bold;
+    }
+
+    .sidebar-card .card-body {
+        font-size: 1rem;
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+    }
+</style>
+
+{% block content %}
+<br><br><br><br><br>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<!-- Add jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div class="container1 py-5">
+    <div class="row">
+        <!-- Main Column -->
+        <div class="col-md-8">
+            <!-- Discussion Header -->
+            <div class="card card-glass mb-4">
+                <div class="card-body">
+                    <h1 class="card-title">{{ discussion.title }}</h1>
+                    <p class="text-muted">
+                        Started by <strong>{{ discussion.creator.username }}</strong> on {{ discussion.created_at|date:"F j, Y" }}
+                        {% if discussion.destination %}
+                            | Destination: <em>{{ discussion.destination.place }}</em>
+                        {% endif %}
+                    </p>
+                    <p>{{ discussion.description }}</p>
+                </div>
+            </div>
+
+            <!-- Post Form -->
+            {% if user.is_authenticated %}
+                <div class="card card-glass mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Add Your Post</h5>
+                        <form method="post" action="{% url 'community:create_post' discussion.pk %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                {{ post_form.content }}
+                                {% if post_form.content.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {{ post_form.content.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Post</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Posts -->
+            <div class="posts">
+                {% for post in posts %}
+                    <div class="card post-card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar">{{ post.author.username|slice:":1"|upper }}</div>
+                                    <div>
+                                        <h6 class="mb-0">{{ post.author.username }}</h6>
+                                        <small class="text-muted">{{ post.created_at|date:"F j, Y" }}</small>
+                                    </div>
+                                </div>
+                                {% if post.author == user %}
+                                    <form action="{% url 'community:delete_post' post.pk %}" method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger" title="Delete Post">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                {% endif %}
+                                <button class="btn btn-sm btn-like" data-post-id="{{ post.pk }}">
+                                    <i class="far fa-heart"></i>
+                                    <span class="like-count">{{ post.total_likes }}</span>
+                                </button>
+                            </div>
+
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" class="img-fluid rounded mb-3" alt="Post image">
+                            {% endif %}
+
+                            <p class="mt-2">{{ post.content }}</p>
+
+                            <!-- Comments -->
+                            <div class="comments mt-4">
+                                {% for comment in post.comments.all %}
+                                    <div class="card comment-card mb-2">
+                                        <div class="card-body py-2">
+                                            <p class="mb-1">{{ comment.content }}</p>
+                                            <small class="text-muted">{{ comment.author.username }} on {{ comment.created_at|date:"F j, Y" }}</small>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                {% if user.is_authenticated %}
+                                    <form method="post" action="{% url 'community:add_comment' post.pk %}" class="mt-3">
+                                        {% csrf_token %}
+                                        <div class="input-group">
+                                            {{ comment_form.content }}
+                                            <button class="btn btn-outline-secondary" type="submit">Comment</button>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="alert alert-info">
+                        No posts yet. Be the first to share your thoughts!
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-md-4">
+            <div class="card sidebar-card">
+                <div class="card-header">
+                    <h5 class="mb-0">Discussion Info</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Started by:</strong> {{ discussion.creator.username }}</p>
+                    <p><strong>Created on:</strong> {{ discussion.created_at|date:"F j, Y" }}</p>
+                    {% if discussion.destination %}
+                        <p><strong>Destination:</strong> {{ discussion.destination.place }}</p>
+                    {% endif %}
+                    <p><strong>Total Posts:</strong> {{ posts|length }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    $(document).ready(function () {
+        $('.btn-like').click(function () {
+            const postId = $(this).data('post-id');
+            const likeBtn = $(this);
+            const likeCount = likeBtn.find('.like-count');
+
+            $.ajax({
+                url: `/community/post/${postId}/like/`,
+                method: 'POST',
+                headers: { "X-CSRFToken": csrftoken },
+                success: function (response) {
+                    if (response.liked) {
+                        likeBtn.addClass('btn-danger').removeClass('btn-outline-danger');
+                        likeBtn.find('i').removeClass('far').addClass('fas');
+                    } else {
+                        likeBtn.addClass('btn-outline-danger').removeClass('btn-danger');
+                        likeBtn.find('i').removeClass('fas').addClass('far');
+                    }
+                    likeCount.text(response.total_likes);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

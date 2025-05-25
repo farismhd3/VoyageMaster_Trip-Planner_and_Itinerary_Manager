@@ -1,0 +1,67 @@
+{% load static %}
+
+<!-- Include header template -->
+{% include 'header.html' %}
+
+<br><br><br><br>
+
+<div class="modal-content" style="width: 50%; margin: 0 auto;">
+    <div class="modal-header">
+        <h5 class="modal-title">Edit Accommodation</h5>
+    </div>
+    <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'edit_accommodation' accommodation.id %}">
+            {% csrf_token %}
+            
+            <!-- Accommodation Fields -->
+            <div class="form-group">
+                {{ accommodation_form.name.label_tag }} <span style="color:red;">*</span>
+                {{ accommodation_form.name }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.description.label_tag }}
+                {{ accommodation_form.description }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.destination.label_tag }} <span style="color:red;">*</span>
+                {{ accommodation_form.destination }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.address.label_tag }} <span style="color:red;">*</span>
+                {{ accommodation_form.address }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.price_per_night.label_tag }} <span style="color:red;">*</span>
+                {{ accommodation_form.price_per_night }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.amenities.label_tag }}
+                {{ accommodation_form.amenities }}
+            </div>
+
+            <div class="form-group">
+                {{ accommodation_form.contact_number.label_tag }}
+                {{ accommodation_form.contact_number }}
+            </div>
+
+            <!-- Image Upload Section -->
+            <label for="images">Upload New Images</label>
+            <div id="image-edit-container">
+                <div class="mb-2">
+                    <input type="file" name="images" class="form-control">
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm add-more-edit-images" data-container="image-edit-container">Add More Images</button>
+            
+            <button type="submit" class="btn btn-primary btn-block">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- Include footer template -->
+{% include 'footer.html' %}

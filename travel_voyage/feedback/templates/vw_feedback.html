@@ -1,0 +1,86 @@
+{% load static %}
+{% include 'header.html' %}
+{% block content %}
+
+</head>
+
+    <div class="banner-w3l-main">
+        <div class="container">
+            <h1 class="my-4 text- text-dark">Query Details</h1>
+            {% if request.session.ut == 0 %}
+           <p> <a href="/feedback_add" class="active btn btn-primary">Raise Ticket</a></p>
+<br>
+            <div class="row">
+             
+                {% if feedback %}
+                    <div class="col-md-4">
+                        <div class="feedback-card">
+                            <h2>{{ feedback.user_id.username|upper }}</h2>
+                            <p class="rating">
+                                {% if feedback.rating %}
+                                    {% for i in "★★★★★"|slice:":5" %}
+                                        {% if forloop.counter <= feedback.rating %}
+                                            &#9733;  <!-- Filled star -->
+                                        {% else %}
+                                            &#9734;  <!-- Empty star -->
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <span>No rating given</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Comments:</strong> {{ feedback.comments|default:"No comments" }}</p>
+                            <small class="text-muted">Created at: {{ feedback.created_at }}</small>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="alert alert-warning text-center" role="alert">No feedback available.</div>
+                    </div>
+                {% endif %}
+            </div>
+
+
+            {% else %}
+
+            <div class="row">
+             
+                {% if feedback %}
+                    {% for i in feedback %}
+                        <div class="col-md-4">
+                            <div class="feedback-card">
+                                <h2>{{ i.user_id.username|upper }}</h2>
+                                <p class="rating">
+                                    {% if i.rating %}
+                                        {% for k in "★★★★★"|slice:":5" %}
+                                            {% if forloop.counter <= i.rating %}
+                                                &#9733;  <!-- Filled star -->
+                                            {% else %}
+                                                &#9734;  <!-- Empty star -->
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <span>No rating given</span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>Comments:</strong> {{ i.comments|default:"No comments" }}</p>
+                                <small class="text-muted">Created at: {{ i.created_at }}</small>
+                            </div>
+                        </div>
+                      {% endfor %}
+
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-warning text-center" role="alert">No feedback available.</div>
+                        </div>
+                    {% endif %}
+            </div>
+
+
+
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+

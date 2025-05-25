@@ -1,0 +1,44 @@
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center"> My Dashboard</h2>
+
+        <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-info mx-2" onclick="showSection('myBookings')">
+                My Bookings
+            </button>
+            <button class="btn btn-info mx-2" onclick="showSection('communityTable')">
+                Community
+            </button>
+        </div>
+
+        <div id="myBookings" class="mt-3">
+            {% include 'my_bookings.html' %}
+        </div>
+
+        <div id="communityTable" class="mt-3 d-none">
+            {% include 'community/agency_community.html' %}
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = ['myBookings', 'communityTable'];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.add('d-none');
+                }
+            });
+
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.classList.remove('d-none');
+            }
+        }
+
+        // Show myBookings section by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('myBookings');
+        });
+    </script>
+</body>

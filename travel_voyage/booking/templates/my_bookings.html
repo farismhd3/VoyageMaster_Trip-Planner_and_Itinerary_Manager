@@ -1,0 +1,255 @@
+{% include 'header.html' %}
+{% load static %}
+
+<style>
+    /* General Body Styling (to ensure text is readable) */
+    body {
+        background-image: url('{% static 'images/bg_1.jpg' %}');
+        background-size: cover;
+        background-position: center;
+        color: #fff; /* Default text color to white */
+        font-family: sans-serif; /* A more readable font */
+    }
+
+    /* Container Styling */
+    .container1 {
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Heading Styling */
+    .text-primary {
+        color: #ffc107 !important; /* Yellow/Orange primary color */
+    }
+
+    /* Table Styling */
+    .table {
+        color: #fff; /* Ensure text in the table is white */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white for striped rows */
+    }
+
+    .table-bordered {
+        border: 1px solid rgba(255, 255, 255, 0.2); /* White border for the table */
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid rgba(255, 255, 255, 0.2); /* White border for table cells */
+    }
+
+    .bg-white {
+        background-color: rgba(255, 255, 255, 0.1) !important; /* Slightly transparent white background for the table */
+    }
+
+    .shadow {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
+    }
+
+    .rounded {
+        border-radius: 0.5rem !important; /* Rounded corners */
+    }
+
+    /* Table Header Styling */
+    .bg-primary {
+        background-color: #ff9800 !important; /* Orange header background */
+    }
+
+    .text-white {
+        color: #fff !important; /* White text for the header */
+    }
+
+    /* Button Styling */
+    .btn-success,
+    .btn-danger {
+        color: #fff;
+        border: none;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-success {
+        background-color: #28a745; /* Green */
+    }
+
+    .btn-danger {
+        background-color: #dc3545; /* Red */
+    }
+
+    .btn-success:hover {
+        background-color: #218838; /* Darker Green */
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333; /* Darker Red */
+    }
+
+    /* Text Styling */
+    .text-muted {
+        color: rgba(255, 255, 255, 0.7) !important; /* Slightly transparent white for muted text */
+    }
+
+    .text-success {
+        color: #28a745 !important; /* Green */
+    }
+
+    .text-warning {
+        color: #ffc107 !important; /* Yellow/Orange */
+    }
+
+    .text-danger {
+        color: #dc3545 !important; /* Red */
+    }
+
+    .card-body a{
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+    }
+    
+    /* Link Styling */
+    a {
+        color: #ffc107; /* Yellow/Orange links */
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+    tbody tr{
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+    }
+    td{
+        color: #fff;
+        background: rgba(30, 30, 30, 0.7); /* Dark semi-transparent background for the container */
+    }
+</style>
+
+<body style="background-image: url('{% static 'images/bg_1.jpg' %}'); background-size: cover; background-position: center;">
+    <div class="container1 py-5">
+        <h1 class="text-center text-primary mb-4">My Bookings</h1>
+
+        <!-- Accommodation Bookings Section -->
+        <h2 class="text-center text-primary">Accommodation Bookings</h2>
+        <div class="row">
+            {% if accommodation_bookings %}
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered bg-white shadow rounded">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th>Accommodation</th>
+                                <th>Check-in Date</th>
+                                <th>Check-out Date</th>
+                                <th>Guests</th>
+                                <th>Total Price</th>
+                                <th>Payment Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in accommodation_bookings %}
+                                <tr>
+                                    <td>{{ booking.accommodation.name }}</td>
+                                    <td>{{ booking.check_in }}</td>
+                                    <td>{{ booking.check_out }}</td>
+                                    <td>{{ booking.guests }}</td>
+                                    <td>${{ booking.total_price }}</td>
+                                    <td>
+                                        {% if booking.p_status == 'Paid' %}
+                                            <span class="text-success">Paid</span>
+                                        {% elif booking.p_status == 'Pending' %}
+                                            <span class="text-warning">Pending</span>
+                                        {% elif booking.status == 'Cancelled' %}
+                                            <span class="text-muted">Cancelled</span>
+                                        {% else %}
+                                            <span class="text-danger">Unknown Status</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if booking.status == 'Cancelled' %}
+                                            <span class="text-muted">Cancelled</span>
+                                        {% elif booking.p_status == 'Pending' and booking.check_out > today %}
+                                            <a href="{% url 'payment_view' booking.id %}" class="btn btn-success btn-sm">Pay Now</a>
+                                            <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                                        {% elif booking.check_in > today %}
+                                            <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                                        {% else %}
+                                            <span class="text-muted">Cannot cancel</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p class="text-center text-muted">You have no accommodation bookings yet.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Trip Bookings Section -->
+        <h2 class="text-center text-primary">Trip Bookings</h2>
+        <div class="row">
+            {% if trip_bookings %}
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered bg-white shadow rounded">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th>Trip Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                              
+                                
+                                <th>Total Price</th>
+                                <th>Payment Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in trip_bookings %}
+                                <tr>
+                                    <td>{{ booking.trip.name }}</td>
+                                    <td>{{ booking.trip.start_date }}</td>
+                                    <td>{{ booking.trip.end_date }}</td>
+                                  
+                                    
+                                    <td>${{ booking.trip.budget }}</td>
+                                    <td>
+                                        {% if booking.p_status == 'Paid' %}
+                                            <span class="text-success">Paid</span>
+                                        {% elif booking.p_status == 'Pending' %}
+                                            <span class="text-warning">Pending</span>
+                                        {% elif booking.status == 'Cancelled' %}
+                                            <span class="text-muted">Cancelled</span>
+                                        {% else %}
+                                            <span class="text-danger">Unknown Status</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if booking.status == 'Cancelled' %}
+                                            <span class="text-muted">Cancelled</span>
+                                        {% elif booking.p_status == 'Pending' and booking.trip.end_date > today %}
+                                            <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">Cancel</a>
+                                        {% else %}
+                                            <span class="text-muted">Cannot cancel</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="col-md-12">
+                    <p class="text-center text-muted">You have no trip bookings yet.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+{% include 'footer.html' %}
